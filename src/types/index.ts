@@ -32,6 +32,7 @@ export interface Sale {
   paymentMethod: 'pix' | 'cash' | 'debit' | 'credit';
   paymentStatus: 'pending' | 'completed' | 'failed';
   discount?: number;
+  paidAmount?: number;
   notes?: string;
 }
 

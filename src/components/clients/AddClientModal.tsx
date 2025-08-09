@@ -15,10 +15,11 @@ import {
   Settings,
   Check,
   X,
-  Brain,
   AlertCircle,
   UserPlus
 } from 'lucide-react';
+import { useInventoryStore } from '@/store';
+import type { Client } from '@/types';
 
 interface AddClientModalProps {
   isOpen: boolean;
@@ -55,6 +56,7 @@ interface ClientFormData {
 }
 
 export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
+  const { addClient } = useInventoryStore();
   const [formData, setFormData] = useState<ClientFormData>({
     name: '',
     document: '',
@@ -80,8 +82,7 @@ export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
   const [validations, setValidations] = useState({
     documentValid: null as boolean | null,
     phoneValid: null as boolean | null,
-    duplicateCheck: null as boolean | null,
-    aiSuggestion: ''
+    duplicateCheck: null as boolean | null
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -159,28 +160,34 @@ export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
     }));
   };
 
-  const generateAISuggestion = () => {
-    // Simular sugestão de IA baseada nos dados
-    const suggestions = [
-      'Cliente com perfil tech - sugerir produtos Apple',
-      'Localização premium - potencial para produtos premium',
-      'Horário comercial - contato via WhatsApp Business',
-      'Perfil jovem - focar em acessórios e customização'
-    ];
-    
-    const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-    setValidations(prev => ({ ...prev, aiSuggestion: randomSuggestion }));
-  };
+  // IA removida
 
   const handleSave = async () => {
     setIsLoading(true);
     
-    // Simular salvamento
     setTimeout(() => {
-      console.log('Cliente salvo:', formData);
+      const newClient: Client = {
+        id: `client-${Date.now()}`,
+        name: formData.name || 'Cliente',
+        phone: formData.phone || '',
+        email: formData.email || undefined,
+        document: formData.document || undefined,
+        address: formData.city ? {
+          street: formData.street,
+          number: formData.number,
+          neighborhood: formData.neighborhood,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+        } : undefined,
+        tags: [],
+        totalPurchases: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      addClient(newClient);
       setIsLoading(false);
       onClose();
-      // Reset form
       setFormData({
         name: '', document: '', birthDate: '', gender: '',
         phone: '', whatsapp: '', email: '', instagram: '',
@@ -188,10 +195,8 @@ export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
         neighborhood: '', city: '', state: '',
         interests: [], preferredPayment: '', bestContactTime: '', notes: ''
       });
-      setValidations({
-        documentValid: null, phoneValid: null, duplicateCheck: null, aiSuggestion: ''
-      });
-    }, 1500);
+      setValidations({ documentValid: null, phoneValid: null, duplicateCheck: null });
+    }, 500);
   };
 
   const isFormValid = () => {
@@ -209,7 +214,7 @@ export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
             <span>Adicionar Novo Cliente</span>
           </DialogTitle>
           <DialogDescription>
-            Formulário completo com validações de IA e auto-preenchimento
+            Formulário completo com validações e auto-preenchimento
           </DialogDescription>
         </DialogHeader>
 
@@ -506,26 +511,7 @@ export function AddClientModal({ isOpen, onClose }: AddClientModalProps) {
                 />
               </div>
 
-              {/* Sugestão de IA */}
-              <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                <div className="flex items-start space-x-3">
-                  <Brain className="h-5 w-5 text-purple-600 mt-0.5" />
-                  <div className="flex-1">
-                    <h4 className="font-medium text-purple-900">Sugestão de Categoria da IA</h4>
-                    <p className="text-sm text-purple-700 mt-1">
-                      {validations.aiSuggestion || 'Preencha mais dados para receber sugestões personalizadas'}
-                    </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={generateAISuggestion}
-                      className="mt-2 text-purple-700 border-purple-300 hover:bg-purple-100"
-                    >
-                      Gerar Sugestão
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </TabsContent>
         </Tabs>

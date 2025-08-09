@@ -14,7 +14,6 @@ import {
   Plus, 
   Search, 
   Filter,
-  Brain,
   BarChart3
 } from 'lucide-react';
 import type { Client } from '@/types';
@@ -69,7 +68,7 @@ export function ClientsPage() {
             <span>Gestão de Clientes</span>
           </h1>
           <p className="text-gray-500">
-            Sistema completo de relacionamento com clientes com insights de IA
+            Sistema completo de relacionamento com clientes
           </p>
         </div>
 
@@ -86,7 +85,7 @@ export function ClientsPage() {
 
       {/* Tabs principais do módulo */}
       <Tabs defaultValue="dashboard" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="dashboard">
             <BarChart3 className="h-4 w-4 mr-2" />
             Dashboard
@@ -95,10 +94,7 @@ export function ClientsPage() {
             <Users className="h-4 w-4 mr-2" />
             Lista de Clientes
           </TabsTrigger>
-          <TabsTrigger value="insights">
-            <Brain className="h-4 w-4 mr-2" />
-            IA Insights
-          </TabsTrigger>
+          
         </TabsList>
 
         {/* Dashboard de Clientes */}
@@ -121,19 +117,7 @@ export function ClientsPage() {
           />
         </TabsContent>
 
-        {/* IA Insights dos Clientes */}
-        <TabsContent value="insights" className="space-y-6">
-          <div className="text-center py-12">
-            <Brain className="h-16 w-16 mx-auto text-purple-300 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              IA Insights de Clientes
-            </h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              Análises avançadas de comportamento, segmentação automática e recomendações 
-              personalizadas por cliente em desenvolvimento.
-            </p>
-          </div>
-        </TabsContent>
+        
       </Tabs>
 
       {/* Modais */}

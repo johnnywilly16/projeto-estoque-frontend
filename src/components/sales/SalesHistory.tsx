@@ -34,6 +34,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { Product, Sale } from '@/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface SalesHistoryProps {
   sales: Sale[];
@@ -45,6 +46,7 @@ export function SalesHistory({ sales, products }: SalesHistoryProps) {
   const [paymentFilter, setPaymentFilter] = useState<string>('all');
   const [dateFilter, setDateFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
 
   // Filtrar vendas
   const filteredSales = sales.filter(sale => {
@@ -324,7 +326,7 @@ export function SalesHistory({ sales, products }: SalesHistoryProps) {
                       </TableCell>
                       
                       <TableCell>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedSale(sale)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                       </TableCell>
@@ -348,6 +350,71 @@ export function SalesHistory({ sales, products }: SalesHistoryProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Modal detalhes da venda */}
+      <Dialog open={!!selectedSale} onOpenChange={() => setSelectedSale(null)}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Detalhes da Venda</DialogTitle>
+          </DialogHeader>
+          {selectedSale && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-600">Data:</span>
+                  <div className="font-medium">{new Date(selectedSale.timestamp).toLocaleString('pt-BR')}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Cliente:</span>
+                  <div className="font-medium">{selectedSale.customerName || 'Cliente não informado'}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Produto:</span>
+                  <div className="font-medium">{products.find(p => p.id === selectedSale.productId)?.title || 'Produto não encontrado'}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">SKU:</span>
+                  <div className="font-medium">{products.find(p => p.id === selectedSale.productId)?.sku || '-'}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Quantidade:</span>
+                  <div className="font-medium">{selectedSale.qty}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Valor Unitário:</span>
+                  <div className="font-medium">{formatCurrency(selectedSale.unitPrice)}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Desconto:</span>
+                  <div className="font-medium">{selectedSale.discount ? `${selectedSale.discount}%` : '-'}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Total:</span>
+                  <div className="font-medium">{formatCurrency(calculateTotal(selectedSale))}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Pagamento:</span>
+                  <div className="font-medium">{getPaymentLabel(selectedSale.paymentMethod)}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Valor Pago:</span>
+                  <div className="font-medium">{formatCurrency(selectedSale.paidAmount || calculateTotal(selectedSale))}</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Status:</span>
+                  <div className="font-medium">{getStatusLabel(selectedSale.paymentStatus)}</div>
+                </div>
+              </div>
+              {selectedSale.notes && (
+                <div className="text-sm">
+                  <span className="text-gray-600">Observações:</span>
+                  <p className="mt-1">{selectedSale.notes}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -17,10 +17,9 @@ import {
   MapPin,
   Calendar,
   DollarSign,
-  Brain,
   X
 } from 'lucide-react';
-import { mockClients } from '@/lib/api/mockData';
+import { useInventoryStore } from '@/store';
 import type { Client } from '@/types';
 
 interface ClientsListProps {
@@ -46,6 +45,7 @@ export function ClientsList({
   onContactWhatsApp,
   onSendEmail
 }: ClientsListProps) {
+  const { clients } = useInventoryStore();
   const [showFilters, setShowFilters] = useState(false);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
@@ -55,15 +55,15 @@ export function ClientsList({
   // Obter todas as tags únicas
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
-    mockClients.forEach(client => {
+    clients.forEach(client => {
       client.tags.forEach(tag => tagSet.add(tag));
     });
     return Array.from(tagSet);
-  }, []);
+  }, [clients]);
 
   // Filtrar e ordenar clientes
   const filteredClients = useMemo(() => {
-    const filtered = mockClients.filter(client => {
+    const filtered = clients.filter(client => {
       // Busca inteligente (nome, telefone, email)
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch = !searchQuery || 
@@ -114,7 +114,7 @@ export function ClientsList({
     });
 
     return filtered;
-  }, [searchQuery, filterStatus, selectedTags, priceRange, sortBy, sortOrder]);
+  }, [clients, searchQuery, filterStatus, selectedTags, priceRange, sortBy, sortOrder]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => 
@@ -208,20 +208,7 @@ export function ClientsList({
             )}
           </div>
 
-          {/* Sugestões de IA */}
-          {searchQuery && (
-            <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-              <div className="flex items-start space-x-2">
-                <Brain className="h-4 w-4 text-purple-600 mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-purple-900">Sugestões de IA</p>
-                  <p className="text-sm text-purple-700">
-                    Encontrei {filteredClients.length} clientes. Talvez você queira filtrar por tag ou faixa de gastos?
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          
 
           {/* Filtros Avançados */}
           {showFilters && (

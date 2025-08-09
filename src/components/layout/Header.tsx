@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Search, Bell, User, TrendingUp, Package } from 'lucide-react';
+import { Search, Bell, User, TrendingUp, Package, AlertTriangle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAutocomplete } from '@/hooks/useAutocomplete';
+import { useInventoryStore } from '@/store';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -29,6 +30,9 @@ export function Header({ onSearch }: HeaderProps) {
     selectSuggestion,
     clearSuggestions
   } = useAutocomplete();
+
+  const { alerts, deleteAlert, markAlertAsRead } = useInventoryStore();
+  const unreadAlerts = alerts.filter(a => !a.isRead);
 
   const handleSearch = (searchQuery: string) => {
     setQuery(searchQuery);
@@ -107,12 +111,37 @@ export function Header({ onSearch }: HeaderProps) {
         {/* Menu do Usuário */}
         <div className="flex items-center space-x-4">
           {/* Notificações */}
-          <Button variant="ghost" size="sm" className="relative">
-            <Bell className="h-5 w-5" />
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-              3
-            </Badge>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="relative">
+                <Bell className="h-5 w-5" />
+                {unreadAlerts.length > 0 && (
+                  <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                    {unreadAlerts.length}
+                  </Badge>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80">
+              <div className="px-3 py-2 text-sm font-medium">Notificações</div>
+              <DropdownMenuSeparator />
+              {alerts.length === 0 && (
+                <div className="px-3 py-6 text-sm text-gray-500">Nenhuma notificação</div>
+              )}
+              {alerts.map((a) => (
+                <div key={a.id} className="px-3 py-2 text-sm flex items-start gap-2">
+                  <AlertTriangle className={`h-4 w-4 mt-0.5 ${a.category === 'critical' ? 'text-red-600' : a.category === 'warning' ? 'text-yellow-600' : 'text-gray-400'}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-gray-900 truncate">{a.title}</div>
+                    <div className="text-gray-600 truncate text-xs">{a.message}</div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="sm" className="h-7 px-2 text-red-600" onClick={() => deleteAlert(a.id)}>Excluir</Button>
+                  </div>
+                </div>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Menu do Usuário */}
           <DropdownMenu>

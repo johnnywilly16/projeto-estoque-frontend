@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { MetricCard } from './MetricCard';
 import { RevenueChart } from './RevenueChart';
+import { ServiceRevenueChart } from './ServiceRevenueChart';
 import { TopProducts } from './TopProducts';
 import { StockAlerts } from './StockAlerts';
 import { RestockModal } from './RestockModal';
@@ -14,7 +15,8 @@ import {
   ShoppingCart, 
   TrendingUp,
   Users,
-  BarChart3
+  BarChart3,
+  Wrench
 } from 'lucide-react';
 import { useInventoryStore } from '@/store';
 import { generateRandomData } from '@/lib/api/mockData';
@@ -35,6 +37,8 @@ export function Dashboard() {
     products, 
     sales, 
     metrics, 
+    serviceOrders,
+    recalcFinancialAndServiceMetrics,
     setProducts, 
     setSales, 
     setMetrics,
@@ -72,7 +76,9 @@ export function Dashboard() {
     };
     
     setMetrics(mockMetrics);
-  }, [setProducts, setSales, setMetrics]);
+    // incluir receita de serviços concluídos
+    recalcFinancialAndServiceMetrics();
+  }, [setProducts, setSales, setMetrics, recalcFinancialAndServiceMetrics]);
 
   // Gerar dados para o gráfico baseado no período
   const generateChartData = () => {
@@ -175,6 +181,35 @@ export function Dashboard() {
   };
 
   const chartData = generateChartData();
+  // Dados da receita de serviços por período (baseado no mesmo período escolhido)
+  const serviceChartData = (() => {
+    const now = new Date();
+    const points: { date: string; value: number; label: string }[] = [];
+    const periods = {
+      week: 7,
+      month: 30,
+      year: 12,
+    } as const;
+    const count = periods[period];
+    for (let i = count - 1; i >= 0; i--) {
+      const d = new Date(now);
+      if (period === 'year') d.setMonth(d.getMonth() - i); else d.setDate(d.getDate() - i);
+      const label = period === 'year' ? d.toLocaleDateString('pt-BR', { month: 'short' }) : d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      // agrega receita de serviços concluídos na data (simples: usa createdAt ou completedDate)
+      const dayKey = d.toISOString().slice(0, period === 'year' ? 7 : 10);
+      const total = serviceOrders
+        .filter(s => ['completed','delivered'].includes(s.status))
+        .filter(s => {
+          const base = s.completedDate || s.updatedAt || s.createdAt;
+          if (!base) return false;
+          const key = base.slice(0, period === 'year' ? 7 : 10);
+          return key === dayKey;
+        })
+        .reduce((sum, so) => sum + (so.finalPrice ?? so.totalCost ?? 0), 0);
+      points.push({ date: d.toISOString(), value: total, label });
+    }
+    return points;
+  })();
 
   if (!metrics) {
     return <div className="flex items-center justify-center h-64">Carregando...</div>;
@@ -206,6 +241,14 @@ export function Dashboard() {
           trend={metrics.revenueGrowth > 0 ? 'up' : 'down'}
           prefix="R$ "
           description="Vendas realizadas no período"
+        />
+
+        <MetricCard
+          title="Serviços (OS) Finalizados"
+          value={serviceOrders.filter(s => ['completed','delivered'].includes(s.status)).length}
+          icon={Wrench}
+          trend="up"
+          description="Total de OS concluídas/entregues"
         />
         
         <MetricCard
@@ -240,7 +283,7 @@ export function Dashboard() {
 
       {/* Gráficos e Tabelas */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Gráfico de Receita - ocupa 2 colunas */}
+        {/* Gráfico de Receita (Vendas geral) - ocupa 2 colunas */}
         <div className="lg:col-span-2">
           <RevenueChart
             data={chartData}
@@ -249,13 +292,8 @@ export function Dashboard() {
           />
         </div>
 
-        {/* Alertas de Estoque */}
-        <div className="lg:col-span-1">
-          <StockAlerts
-            alerts={stockAlerts}
-            onReorderProduct={handleReorderProduct}
-          />
-        </div>
+        {/* Receita de Serviços (OS) */}
+        <ServiceRevenueChart data={serviceChartData} />
       </div>
 
       {/* IA e Analytics */}
@@ -269,7 +307,13 @@ export function Dashboard() {
           />
         </div>
 
-
+        {/* Alertas de Estoque (realocado para esta linha) */}
+        <div className="lg:col-span-2">
+          <StockAlerts
+            alerts={stockAlerts}
+            onReorderProduct={handleReorderProduct}
+          />
+        </div>
       </div>
 
       {/* Modal de Reposição */}

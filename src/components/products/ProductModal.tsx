@@ -21,6 +21,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { X, Plus, Image as ImageIcon } from 'lucide-react';
 import { Product, Category } from '@/types';
+import { useInventoryStore } from '@/store';
 
 interface ProductModalProps {
   open: boolean;
@@ -42,6 +43,7 @@ interface FormData {
 }
 
 export function ProductModal({ open, onOpenChange, product, categories, onSave }: ProductModalProps) {
+  const { addCategory } = useInventoryStore();
   const [formData, setFormData] = useState<FormData>({
     sku: '',
     title: '',
@@ -55,6 +57,7 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
   
   const [newAttribute, setNewAttribute] = useState({ key: '', value: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [newCategoryName, setNewCategoryName] = useState('');
 
   // Resetar formulário quando o modal abrir/fechar ou produto mudar
   useEffect(() => {
@@ -123,42 +126,24 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
     }));
   };
 
+  const handleCreateCategory = () => {
+    const name = newCategoryName.trim();
+    if (!name) return;
+    const newCategory: Category = {
+      id: `cat-${Date.now()}`,
+      name,
+      parentId: null,
+      createdAt: new Date().toISOString(),
+    };
+    addCategory(newCategory);
+    setFormData(prev => ({ ...prev, categoryId: newCategory.id }));
+    setNewCategoryName('');
+  };
+
   const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.sku.trim()) {
-      newErrors.sku = 'SKU é obrigatório';
-    }
-
-    if (!formData.title.trim()) {
-      newErrors.title = 'Nome do produto é obrigatório';
-    }
-
-    if (!formData.categoryId) {
-      newErrors.categoryId = 'Categoria é obrigatória';
-    }
-
-    const costPrice = parseFloat(formData.costPrice);
-    if (isNaN(costPrice) || costPrice < 0) {
-      newErrors.costPrice = 'Preço de custo deve ser um número válido';
-    }
-
-    const salePrice = parseFloat(formData.salePrice);
-    if (isNaN(salePrice) || salePrice < 0) {
-      newErrors.salePrice = 'Preço de venda deve ser um número válido';
-    }
-
-    if (costPrice > salePrice) {
-      newErrors.salePrice = 'Preço de venda deve ser maior que o preço de custo';
-    }
-
-    const stock = parseInt(formData.stock);
-    if (isNaN(stock) || stock < 0) {
-      newErrors.stock = 'Estoque deve ser um número válido';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    // Nenhum campo obrigatório. Garantir valores padrão seguros.
+    setErrors({});
+    return true;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -168,13 +153,17 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
       return;
     }
 
+    const cost = parseFloat(formData.costPrice);
+    const sale = parseFloat(formData.salePrice);
+    const stk = parseInt(formData.stock);
+
     const productData = {
-      sku: formData.sku.trim(),
-      title: formData.title.trim(),
-      categoryId: formData.categoryId,
-      costPrice: parseFloat(formData.costPrice),
-      salePrice: parseFloat(formData.salePrice),
-      stock: parseInt(formData.stock),
+      sku: formData.sku.trim() || `SKU-${Date.now().toString().slice(-6)}`,
+      title: formData.title.trim() || 'Produto sem título',
+      categoryId: formData.categoryId || '',
+      costPrice: isNaN(cost) || cost < 0 ? 0 : cost,
+      salePrice: isNaN(sale) || sale < 0 ? 0 : sale,
+      stock: isNaN(stk) || stk < 0 ? 0 : stk,
       images: formData.images,
       attributes: formData.attributes
     };
@@ -204,7 +193,7 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
           {/* Informações Básicas */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="sku">SKU *</Label>
+              <Label htmlFor="sku">SKU</Label>
               <Input
                 id="sku"
                 value={formData.sku}
@@ -216,28 +205,42 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">Categoria *</Label>
-              <Select 
-                value={formData.categoryId} 
-                onValueChange={(value) => handleInputChange('categoryId', value)}
-              >
-                <SelectTrigger className={errors.categoryId ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Selecione uma categoria" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map(category => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="category">Categoria</Label>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <Select 
+                    value={formData.categoryId} 
+                    onValueChange={(value) => handleInputChange('categoryId', value)}
+                  >
+                    <SelectTrigger className={errors.categoryId ? 'border-red-500' : ''}>
+                      <SelectValue placeholder="Selecione uma categoria" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(category => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Input 
+                  placeholder="Nova categoria"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+                <Button type="button" variant="outline" onClick={handleCreateCategory}>
+                  Adicionar
+                </Button>
+              </div>
               {errors.categoryId && <p className="text-sm text-red-500">{errors.categoryId}</p>}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="title">Nome do Produto *</Label>
+            <Label htmlFor="title">Nome do Produto</Label>
             <Input
               id="title"
               value={formData.title}
@@ -251,7 +254,7 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
           {/* Preços e Estoque */}
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="costPrice">Preço de Custo *</Label>
+              <Label htmlFor="costPrice">Preço de Custo</Label>
               <Input
                 id="costPrice"
                 type="number"
@@ -266,7 +269,7 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="salePrice">Preço de Venda *</Label>
+              <Label htmlFor="salePrice">Preço de Venda</Label>
               <Input
                 id="salePrice"
                 type="number"
@@ -288,7 +291,7 @@ export function ProductModal({ open, onOpenChange, product, categories, onSave }
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="stock">Estoque *</Label>
+              <Label htmlFor="stock">Estoque</Label>
               <Input
                 id="stock"
                 type="number"

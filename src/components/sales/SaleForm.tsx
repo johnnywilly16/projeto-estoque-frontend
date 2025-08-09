@@ -44,14 +44,17 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
   const [selectedProductId, setSelectedProductId] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'cash' | 'debit' | 'credit'>('pix');
+  const [paidAmount, setPaidAmount] = useState<string>('');
   const [discount, setDiscount] = useState(0);
   const [notes, setNotes] = useState('');
   const [productSearch, setProductSearch] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Filtrar produtos para busca
+  // Filtrar produtos para busca (somente com estoque)
   const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(productSearch.toLowerCase()) ||
-    product.sku.toLowerCase().includes(productSearch.toLowerCase())
+    (product.title.toLowerCase().includes(productSearch.toLowerCase()) ||
+     product.sku.toLowerCase().includes(productSearch.toLowerCase())) &&
+    product.stock > 0
   );
 
   // Adicionar produto ao carrinho
@@ -75,6 +78,7 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
     
     setSelectedProductId('');
     setProductSearch('');
+    setShowSuggestions(false);
   };
 
   // Remover produto do carrinho
@@ -150,6 +154,7 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
         paymentMethod,
         paymentStatus: 'completed',
         discount: discount,
+        paidAmount: parseFloat(paidAmount) || total,
         notes
       };
       
@@ -160,6 +165,7 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
     setCart([]);
     setCustomerName('');
     setDiscount(0);
+    setPaidAmount('');
     setNotes('');
     setSelectedProductId('');
   };
@@ -176,9 +182,46 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
             <Input
               placeholder="Buscar produto por nome ou SKU..."
               value={productSearch}
-              onChange={(e) => setProductSearch(e.target.value)}
+              onChange={(e) => { setProductSearch(e.target.value); setShowSuggestions(true); }}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  // Enter adiciona o primeiro sugerido
+                  const first = filteredProducts[0];
+                  if (first) {
+                    setSelectedProductId(first.id);
+                    setTimeout(addToCart, 0);
+                  }
+                }
+              }}
               className="pl-10"
             />
+            {showSuggestions && productSearch && (
+              <div className="absolute z-20 mt-1 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                {filteredProducts.length === 0 && (
+                  <div className="px-3 py-2 text-sm text-gray-500">Nenhum produto em estoque</div>
+                )}
+                {filteredProducts.map((p) => (
+                  <button
+                    type="button"
+                    key={p.id}
+                    onClick={() => {
+                      setSelectedProductId(p.id);
+                      setProductSearch(`${p.title}`);
+                      setShowSuggestions(false);
+                    }}
+                    className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center justify-between text-sm"
+                  >
+                    <span className="truncate max-w-[60%]">{p.title} <span className="text-gray-400">({p.sku})</span></span>
+                    <span className="text-gray-600">
+                      {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.salePrice)}
+                      <span className="text-xs text-gray-400 ml-2">Estoque: {p.stock}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           
           <Select value={selectedProductId} onValueChange={setSelectedProductId}>
@@ -316,6 +359,28 @@ export function SaleForm({ products, onSubmit, onCancel }: SaleFormProps) {
               <span>{getPaymentLabel(method)}</span>
             </Button>
           ))}
+        </div>
+
+        {/* Valor pago */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="paid">Valor Pago ({getPaymentLabel(paymentMethod)})</Label>
+            <Input
+              id="paid"
+              type="number"
+              min="0"
+              step="0.01"
+              value={paidAmount}
+              onChange={(e) => setPaidAmount(e.target.value)}
+              placeholder={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Troco</Label>
+            <div className="h-10 flex items-center px-3 rounded-md border bg-gray-50 text-gray-700">
+              {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Math.max((parseFloat(paidAmount) || 0) - total, 0))}
+            </div>
+          </div>
         </div>
       </div>
 

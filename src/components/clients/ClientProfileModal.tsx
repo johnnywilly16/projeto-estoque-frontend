@@ -15,16 +15,12 @@ import {
   DollarSign,
   ShoppingBag,
   Wrench,
-  Brain,
   MessageCircle,
   Edit,
   Star,
   TrendingUp,
-  AlertTriangle,
-  Clock,
   FileText,
-  Target,
-  Bell
+  Target
 } from 'lucide-react';
 import type { Client } from '@/types';
 
@@ -109,49 +105,13 @@ export function ClientProfileModal({
     return Math.floor((Date.now() - new Date(client.lastPurchase).getTime()) / (1000 * 60 * 60 * 24));
   };
 
-  const generateAIInsights = () => {
-    const daysSince = getDaysSinceLastPurchase();
-    const tier = getClientTier();
-    
-    const insights = [];
-    
-    if (daysSince && daysSince > 60) {
-      insights.push({
-        type: 'warning',
-        title: 'Cliente Inativo',
-        description: `Sem compras há ${daysSince} dias - Enviar promoção personalizada`,
-        action: 'Criar campanha de reativação'
-      });
-    }
-    
-    if (tier.tier === 'VIP') {
-      insights.push({
-        type: 'info',
-        title: 'Cliente VIP',
-        description: 'Oferecer produtos premium e atendimento diferenciado',
-        action: 'Agendar contato personalizado'
-      });
-    }
-    
-    if (client.tags.includes('iPhone')) {
-      insights.push({
-        type: 'suggestion',
-        title: 'Oportunidade Upsell',
-        description: 'Cliente Apple - Sugerir acessórios premium e AppleCare',
-        action: 'Enviar catálogo de acessórios'
-      });
-    }
-
-    return insights;
-  };
-
-  const aiInsights = generateAIInsights();
+  // Removidos recursos de IA
   const tierInfo = getClientTier();
   const daysSince = getDaysSinceLastPurchase();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -181,12 +141,12 @@ export function ClientProfileModal({
             </div>
           </DialogTitle>
           <DialogDescription>
-            Perfil completo do cliente com histórico e insights de IA
+            Perfil completo do cliente com histórico
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="general">
               <User className="h-4 w-4 mr-2" />
               Geral
@@ -194,10 +154,6 @@ export function ClientProfileModal({
             <TabsTrigger value="history">
               <FileText className="h-4 w-4 mr-2" />
               Histórico
-            </TabsTrigger>
-            <TabsTrigger value="insights">
-              <Brain className="h-4 w-4 mr-2" />
-              IA Insights
             </TabsTrigger>
             <TabsTrigger value="actions">
               <Target className="h-4 w-4 mr-2" />
@@ -375,119 +331,7 @@ export function ClientProfileModal({
             </div>
           </TabsContent>
 
-          {/* IA Insights */}
-          <TabsContent value="insights" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Produtos Sugeridos */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Target className="h-5 w-5 text-blue-600" />
-                    <span>Produtos Sugeridos</span>
-                  </CardTitle>
-                  <CardDescription>
-                    Recomendações baseadas no perfil do cliente
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <h4 className="font-medium text-blue-900">iPhone 16 Pro</h4>
-                    <p className="text-sm text-blue-700">Upgrade do iPhone atual - 85% de probabilidade</p>
-                    <p className="text-xs text-blue-600 mt-1">💰 Potencial: R$ 6.500</p>
-                  </div>
-                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <h4 className="font-medium text-green-900">AirPods Pro</h4>
-                    <p className="text-sm text-green-700">Acessório complementar - 72% de probabilidade</p>
-                    <p className="text-xs text-green-600 mt-1">💰 Potencial: R$ 2.400</p>
-                  </div>
-                  <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                    <h4 className="font-medium text-purple-900">AppleCare+</h4>
-                    <p className="text-sm text-purple-700">Proteção adicional - 60% de probabilidade</p>
-                    <p className="text-xs text-purple-600 mt-1">💰 Potencial: R$ 899</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Alertas e Oportunidades */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Bell className="h-5 w-5 text-amber-600" />
-                    <span>Alertas Personalizados</span>
-                  </CardTitle>
-                  <CardDescription>
-                    Insights automáticos da IA
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {aiInsights.map((insight, index) => (
-                    <div key={index} className={`p-3 border rounded-lg ${
-                      insight.type === 'warning' ? 'bg-red-50 border-red-200' :
-                      insight.type === 'info' ? 'bg-blue-50 border-blue-200' :
-                      'bg-green-50 border-green-200'
-                    }`}>
-                      <div className="flex items-start space-x-2">
-                        <AlertTriangle className={`h-4 w-4 mt-0.5 ${
-                          insight.type === 'warning' ? 'text-red-600' :
-                          insight.type === 'info' ? 'text-blue-600' :
-                          'text-green-600'
-                        }`} />
-                        <div className="flex-1">
-                          <h5 className={`font-medium ${
-                            insight.type === 'warning' ? 'text-red-900' :
-                            insight.type === 'info' ? 'text-blue-900' :
-                            'text-green-900'
-                          }`}>
-                            {insight.title}
-                          </h5>
-                          <p className={`text-sm ${
-                            insight.type === 'warning' ? 'text-red-700' :
-                            insight.type === 'info' ? 'text-blue-700' :
-                            'text-green-700'
-                          }`}>
-                            {insight.description}
-                          </p>
-                          <p className={`text-xs mt-1 ${
-                            insight.type === 'warning' ? 'text-red-600' :
-                            insight.type === 'info' ? 'text-blue-600' :
-                            'text-green-600'
-                          }`}>
-                            💡 {insight.action}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Melhor Momento para Contato */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Clock className="h-5 w-5 text-green-600" />
-                  <span>Melhor Momento para Contato</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <TrendingUp className="h-6 w-6 text-green-600" />
-                    <div>
-                      <h4 className="font-medium text-green-900">Terças-feiras, 14h-16h</h4>
-                      <p className="text-sm text-green-700">
-                        Baseado no histórico de interações e compras do cliente
-                      </p>
-                      <p className="text-xs text-green-600 mt-1">
-                        📊 Taxa de resposta: 87% | 📞 Conversão: 45%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+          
 
           {/* Ações Rápidas */}
           <TabsContent value="actions" className="space-y-6">

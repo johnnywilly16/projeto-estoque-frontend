@@ -30,7 +30,6 @@ export function SalesPage() {
   const { 
     sales, 
     products,
-    setSales,
     addSale 
   } = useInventoryStore();
 

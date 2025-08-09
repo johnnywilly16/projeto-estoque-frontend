@@ -27,6 +27,7 @@ import {
   Eye
 } from 'lucide-react';
 import { Product } from '@/types';
+import { useInventoryStore } from '@/store';
 
 interface ProductTableProps {
   products: Product[];
@@ -35,6 +36,13 @@ interface ProductTableProps {
 }
 
 export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) {
+  const { categories } = useInventoryStore();
+
+  const getCategoryName = (categoryId: string) => {
+    if (!categoryId) return 'Sem categoria';
+    const category = categories.find((c) => c.id === categoryId);
+    return category ? category.name : 'Sem categoria';
+  };
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -140,7 +148,7 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
                 {/* Categoria */}
                 <TableCell>
                   <Badge variant="outline">
-                    {product.categoryId}
+                    {getCategoryName(product.categoryId)}
                   </Badge>
                 </TableCell>
 

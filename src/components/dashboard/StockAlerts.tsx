@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -206,8 +207,8 @@ export function StockAlerts({ alerts, onReorderProduct }: StockAlertsProps) {
                       className="text-yellow-700 border-yellow-300 hover:bg-yellow-50"
                       onClick={() => onReorderProduct?.(alert.product.id, alert.suggestedReorder || 30)}
                     >
-                      <ShoppingCart className="h-3 w-3 mr-1" />
-                      Planejar
+                      <Plus className="h-3 w-3 mr-1" />
+                      Repor
                     </Button>
                   </div>
                   
@@ -250,17 +251,12 @@ export function StockAlerts({ alerts, onReorderProduct }: StockAlertsProps) {
           {/* Ações Gerais */}
           {alerts.length > 0 && (
             <div className="pt-4 border-t space-y-2">
-              <Button className="w-full" variant="outline">
-                <Package className="h-4 w-4 mr-2" />
-                Ver Relatório Detalhado
+              <Button className="w-full" variant="outline" asChild>
+                <Link href="/relatorios">
+                  <Package className="h-4 w-4 mr-2" />
+                  Ver Relatório Detalhado
+                </Link>
               </Button>
-              
-              {criticalAlerts.length > 0 && (
-                <Button className="w-full bg-red-600 hover:bg-red-700">
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Resolver {criticalAlerts.length} Crítico(s)
-                </Button>
-              )}
             </div>
           )}
         </div>

@@ -26,6 +26,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useInventoryStore } from '@/store';
 
 interface NavItem {
   title: string;
@@ -99,6 +100,8 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
+  const { alerts } = useInventoryStore();
+  const unreadCount = alerts.filter(a => !a.isRead).length;
 
   const NavGroup = ({ title, items }: { title: string; items: NavItem[] }) => (
     <div className="space-y-1">

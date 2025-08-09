@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { 
   Trophy, 
   TrendingUp, 
@@ -35,7 +36,7 @@ interface TopProductsProps {
 }
 
 export function TopProducts({ products, period, onViewProduct }: TopProductsProps) {
-  const maxRevenue = Math.max(...products.map(p => p.revenue));
+  const maxRevenue = products.length > 0 ? Math.max(...products.map(p => p.revenue)) : 0;
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -81,7 +82,14 @@ export function TopProducts({ products, period, onViewProduct }: TopProductsProp
       </CardHeader>
 
       <CardContent>
-        <div className="space-y-4">
+        <Tabs defaultValue="revenue" className="space-y-4">
+          <TabsList className="grid grid-cols-3 w-full">
+            <TabsTrigger value="revenue">Receita</TabsTrigger>
+            <TabsTrigger value="sales">Vendas</TabsTrigger>
+            <TabsTrigger value="stock">Estoque</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="revenue" className="space-y-4">
           {products.map((item, index) => {
             const progressPercentage = (item.revenue / maxRevenue) * 100;
             
@@ -177,16 +185,44 @@ export function TopProducts({ products, period, onViewProduct }: TopProductsProp
               <p>Nenhum produto vendido no período</p>
             </div>
           )}
-        </div>
+          </TabsContent>
 
-        {/* Botão para Ver Todos */}
-        {products.length > 0 && (
-          <div className="pt-4 border-t">
-            <Button variant="outline" className="w-full">
-              Ver Relatório Completo
-            </Button>
-          </div>
-        )}
+          {/* Aba Vendas */}
+          <TabsContent value="sales" className="space-y-3">
+            {products
+              .slice()
+              .sort((a, b) => b.totalSold - a.totalSold)
+              .map((item, idx) => (
+                <div key={item.product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage src={item.product.images[0] || '/placeholder-product.jpg'} />
+                      <AvatarFallback className="rounded-lg"><Package className="h-4 w-4 text-gray-400" /></AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="text-sm font-medium">{item.product.title}</div>
+                      <div className="text-xs text-gray-500">SKU: {item.product.sku}</div>
+                    </div>
+                  </div>
+                  <Badge variant="outline" className="text-blue-600 border-blue-200">{item.totalSold} vendas</Badge>
+                </div>
+              ))}
+          </TabsContent>
+
+          {/* Aba Estoque */}
+          <TabsContent value="stock" className="space-y-3">
+            {products
+              .slice()
+              .sort((a, b) => a.product.stock - b.product.stock)
+              .map((item) => (
+                <div key={item.product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="text-sm font-medium truncate max-w-[60%]">{item.product.title}</div>
+                  <div className="text-xs text-gray-500">Estoque: {item.product.stock}</div>
+                </div>
+              ))}
+          </TabsContent>
+
+        </Tabs>
       </CardContent>
     </Card>
   );
