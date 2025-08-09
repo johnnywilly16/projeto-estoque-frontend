@@ -16,7 +16,7 @@ import {
   Zap,
   FileText,
   Wrench,
-  Brain,
+
   Download,
   Target,
   UserCheck,
@@ -71,12 +71,7 @@ const analyticsNavItems: NavItem[] = [
     icon: BarChart3,
     badge: 'COMPLETO',
   },
-  {
-    title: 'IA Engine',
-    href: '/ia',
-    icon: Brain,
-    badge: 'AVANÇADO',
-  },
+
   {
     title: 'Analytics',
     href: '/analytics',
@@ -173,11 +168,11 @@ export function Sidebar({ className }: SidebarProps) {
       {/* Widget do Sistema Japa iPhone */}
       <div className="mx-3 mt-6 p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg border border-blue-200">
         <div className="flex items-center space-x-2 mb-2">
-          <Brain className="h-4 w-4 text-blue-600" />
+          <Package className="h-4 w-4 text-blue-600" />
           <span className="text-sm font-medium text-blue-800">Sistema Japa iPhone</span>
         </div>
         <p className="text-xs text-blue-600 mb-3">
-          IA Engine ativa com 92% de precisão. Sistema completo operacional.
+          Sistema completo de gestão de estoque operacional.
         </p>
         <div className="space-y-2">
           <div className="grid grid-cols-2 gap-2 text-xs">
@@ -191,23 +186,23 @@ export function Sidebar({ className }: SidebarProps) {
             </div>
           </div>
           <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-            <Link href="/ia">
-              <Brain className="w-3 h-3 mr-1" />
-              Ver IA Engine
+            <Link href="/relatorios">
+              <BarChart3 className="w-3 h-3 mr-1" />
+              Ver Relatórios
             </Link>
           </Button>
         </div>
       </div>
 
-      {/* Widget de Alertas IA */}
+      {/* Widget de Alertas */}
       <div className="mx-3 mt-4 p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200">
         <div className="flex items-center space-x-2 mb-2">
           <Target className="h-4 w-4 text-green-600" />
-          <span className="text-sm font-medium text-green-800">Oportunidades IA</span>
+          <span className="text-sm font-medium text-green-800">Oportunidades</span>
         </div>
         <div className="space-y-2 text-xs">
           <div className="flex justify-between">
-            <span className="text-green-700">Upsell VIP:</span>
+            <span className="text-green-700">Vendas VIP:</span>
             <span className="font-medium text-green-800">24 clientes</span>
           </div>
           <div className="flex justify-between">
@@ -215,14 +210,14 @@ export function Sidebar({ className }: SidebarProps) {
             <span className="font-medium text-green-800">R$ 89k</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-green-700">Churn Risk:</span>
-            <span className="font-medium text-orange-600">67 clientes</span>
+            <span className="text-green-700">Alertas:</span>
+            <span className="font-medium text-orange-600">5 pendentes</span>
           </div>
         </div>
         <Button size="sm" variant="outline" className="w-full mt-3 text-green-700 border-green-300 hover:bg-green-50" asChild>
-          <Link href="/relatorios">
-            <BarChart3 className="w-3 h-3 mr-1" />
-            Ver Relatórios
+          <Link href="/alertas">
+            <AlertTriangle className="w-3 h-3 mr-1" />
+            Ver Alertas
           </Link>
         </Button>
       </div>
@@ -234,10 +229,7 @@ export function Sidebar({ className }: SidebarProps) {
             <span>Sistema:</span>
             <span className="text-green-600 font-medium">Online</span>
           </div>
-          <div className="flex justify-between">
-            <span>IA Engine:</span>
-            <span className="text-green-600 font-medium">Ativo</span>
-          </div>
+
           <div className="flex justify-between">
             <span>Última Sync:</span>
             <span className="text-gray-700">Agora</span>

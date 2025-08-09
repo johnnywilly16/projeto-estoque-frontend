@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { 
   Product, Sale, Category, DashboardMetrics, UserEvent, SearchSuggestion, Client, Schedule,
   ServiceType, ServiceOrder, ServicePart, Technician, FinancialMetrics, ServiceMetrics,
-  CustomerMetrics, Alert, AIRecommendation
+  CustomerMetrics, Alert
 } from '@/types';
 
 interface InventoryStore {
@@ -28,7 +28,7 @@ interface InventoryStore {
   
   // Estado - Sistema
   alerts: Alert[];
-  aiRecommendations: AIRecommendation[];
+
   searchSuggestions: SearchSuggestion[];
   loading: boolean;
   error: string | null;
@@ -100,11 +100,6 @@ interface InventoryStore {
   markAlertAsRead: (id: string) => void;
   deleteAlert: (id: string) => void;
   
-  // Ações para recomendações IA
-  setAIRecommendations: (recommendations: AIRecommendation[]) => void;
-  addAIRecommendation: (recommendation: AIRecommendation) => void;
-  markRecommendationAsImplemented: (id: string) => void;
-  deleteAIRecommendation: (id: string) => void;
   
   // Ações para busca
   setSearchSuggestions: (suggestions: SearchSuggestion[]) => void;
@@ -143,7 +138,7 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
   
   // Estado inicial - Sistema
   alerts: [],
-  aiRecommendations: [],
+
   searchSuggestions: [],
   loading: false,
   error: null,
@@ -317,22 +312,6 @@ export const useInventoryStore = create<InventoryStore>((set, get) => ({
     alerts: state.alerts.filter(a => a.id !== id)
   })),
   
-  // Implementação das ações para recomendações IA
-  setAIRecommendations: (aiRecommendations) => set({ aiRecommendations }),
-  
-  addAIRecommendation: (recommendation) => set((state) => ({
-    aiRecommendations: [...state.aiRecommendations, recommendation]
-  })),
-  
-  markRecommendationAsImplemented: (id) => set((state) => ({
-    aiRecommendations: state.aiRecommendations.map(r => 
-      r.id === id ? { ...r, isImplemented: true } : r
-    )
-  })),
-  
-  deleteAIRecommendation: (id) => set((state) => ({
-    aiRecommendations: state.aiRecommendations.filter(r => r.id !== id)
-  })),
   
   setSearchSuggestions: (suggestions) => set({ searchSuggestions: suggestions }),
   

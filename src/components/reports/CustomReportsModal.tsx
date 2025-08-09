@@ -195,7 +195,7 @@ export function CustomReportsModal({ isOpen, onClose }: CustomReportsModalProps)
     }));
   };
 
-  const handleFilterChange = (filterType: string, value: any) => {
+  const handleFilterChange = (filterType: string, value: unknown) => {
     setReportConfig(prev => ({
       ...prev,
       filters: {
@@ -205,7 +205,7 @@ export function CustomReportsModal({ isOpen, onClose }: CustomReportsModalProps)
     }));
   };
 
-  const applySuggestion = (suggestion: any) => {
+  const applySuggestion = (suggestion: { title: string; description: string; dataSources: string[]; visualizations: string[] }) => {
     setReportConfig(prev => ({
       ...prev,
       name: suggestion.title,

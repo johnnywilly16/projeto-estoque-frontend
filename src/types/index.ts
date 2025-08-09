@@ -107,20 +107,7 @@ export interface ProductFilter {
   sortOrder?: 'asc' | 'desc';
 }
 
-export interface MLPrediction {
-  productId: string;
-  probability: number;
-  reason: string;
-}
 
-export interface RecommendationResult {
-  type: 'restock' | 'promotion' | 'bundle' | 'new_product';
-  title: string;
-  description: string;
-  products: Product[];
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  estimatedImpact: number;
-}
 
 export interface Client {
   id: string;
@@ -158,24 +145,7 @@ export interface Schedule {
   updatedAt: string;
 }
 
-export interface TensorFlowModel {
-  id: string;
-  name: string;
-  type: 'recommendation' | 'prediction' | 'classification';
-  version: string;
-  accuracy?: number;
-  lastTrained: string;
-  status: 'training' | 'ready' | 'error';
-}
 
-export interface MLPrediction {
-  productId: string;
-  probability: number;
-  confidence: number;
-  timeframe: 'week' | 'month' | 'quarter';
-  factors: string[];
-  estimatedSales: number;
-}
 
 // Sistema de Manutenções/Assistência Técnica
 export interface ServiceType {
@@ -324,20 +294,4 @@ export interface Alert {
   expiresAt?: string;
 }
 
-// IA e Recomendações Avançadas
-export interface AIRecommendation {
-  id: string;
-  type: 'inventory' | 'pricing' | 'service' | 'marketing' | 'operational';
-  category: 'critical' | 'important' | 'suggestion';
-  title: string;
-  description: string;
-  reasoning: string[];
-  expectedImpact: string;
-  confidence: number;
-  estimatedROI?: number;
-  actionSteps: string[];
-  dataPoints: { label: string; value: string | number }[];
-  isImplemented: boolean;
-  createdAt: string;
-  validUntil?: string;
-}
+

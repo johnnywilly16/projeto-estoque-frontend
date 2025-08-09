@@ -19,14 +19,12 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
-    "@tensorflow/tfjs": "^4.22.0",
-    "@tensorflow/tfjs-data": "^4.22.0",
-    "@tensorflow/tfjs-vis": "^1.5.1",
+
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.539.0",
-    "ml-matrix": "^6.12.1",
+
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",

@@ -97,7 +97,7 @@ export function EditClientModal({ client, isOpen, onClose }: EditClientModalProp
     'Revenda', 'Influencer', 'Parceiro', 'Estudante', 'Desconto'
   ];
 
-  const handleInputChange = (field: keyof EditFormData, value: any) => {
+  const handleInputChange = (field: keyof EditFormData, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };
@@ -405,7 +405,7 @@ export function EditClientModal({ client, isOpen, onClose }: EditClientModalProp
                 ) : (
                   <div className="text-center py-6 text-gray-500">
                     <History className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">Clique no botão "Histórico" para ver as alterações</p>
+                    <p className="text-sm">Clique no botão &quot;Histórico&quot; para ver as alterações</p>
                   </div>
                 )}
               </CardContent>

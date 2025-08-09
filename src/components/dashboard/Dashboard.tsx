@@ -5,7 +5,9 @@ import { MetricCard } from './MetricCard';
 import { RevenueChart } from './RevenueChart';
 import { TopProducts } from './TopProducts';
 import { StockAlerts } from './StockAlerts';
-import { AIRecommendations } from './AIRecommendations';
+import { RestockModal } from './RestockModal';
+import { Notification } from '@/components/ui/notification';
+
 import { 
   DollarSign, 
   Package, 
@@ -16,9 +18,19 @@ import {
 } from 'lucide-react';
 import { useInventoryStore } from '@/store';
 import { generateRandomData } from '@/lib/api/mockData';
+import { Product } from '@/types';
 
 export function Dashboard() {
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('month');
+  const [isRestockModalOpen, setIsRestockModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  const [notification, setNotification] = useState<{
+    show: boolean;
+    title: string;
+    message: string;
+    type: 'success' | 'error' | 'info';
+  }>({ show: false, title: '', message: '', type: 'success' });
   const { 
     products, 
     sales, 
@@ -132,8 +144,34 @@ export function Dashboard() {
   });
 
   const handleReorderProduct = (productId: string, quantity: number) => {
-    console.log(`Reordering ${quantity} units of product ${productId}`);
-    // Aqui você implementaria a lógica de reposição
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      setSelectedQuantity(quantity);
+      setIsRestockModalOpen(true);
+    }
+  };
+
+  const handleConfirmRestock = (productId: string, quantity: number) => {
+    // Simular atualização do estoque
+    const updatedProducts = products.map(product => 
+      product.id === productId 
+        ? { ...product, stock: product.stock + quantity }
+        : product
+    );
+    setProducts(updatedProducts);
+
+    // Mostrar notificação de sucesso
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      const totalCost = quantity * product.costPrice;
+      setNotification({
+        show: true,
+        title: 'Estoque Reposto!',
+        message: `+${quantity} unidades de ${product.title} - Total: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalCost)}`,
+        type: 'success'
+      });
+    }
   };
 
   const chartData = generateChartData();
@@ -231,11 +269,29 @@ export function Dashboard() {
           />
         </div>
 
-        {/* IA Recomendações */}
-        <div className="lg:col-span-2">
-          <AIRecommendations userId="user-1" />
-        </div>
+
       </div>
+
+      {/* Modal de Reposição */}
+      <RestockModal
+        isOpen={isRestockModalOpen}
+        onClose={() => {
+          setIsRestockModalOpen(false);
+          setSelectedProduct(null);
+        }}
+        product={selectedProduct}
+        suggestedQuantity={selectedQuantity}
+        onConfirmRestock={handleConfirmRestock}
+      />
+
+      {/* Notificação */}
+      <Notification
+        show={notification.show}
+        title={notification.title}
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification(prev => ({ ...prev, show: false }))}
+      />
 
       {/* Métricas Adicionais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

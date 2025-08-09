@@ -1,4 +1,4 @@
-import { Product, Category, Sale, UserEvent, ServiceType, ServiceOrder, ServicePart, Technician, Alert, AIRecommendation, Client } from '@/types';
+import { Product, Category, Sale, UserEvent, ServiceType, ServiceOrder, ServicePart, Technician, Alert, Client } from '@/types';
 
 // Categorias mock
 export const mockCategories: Category[] = [

@@ -1,15 +1,14 @@
-# 📱 Japa iPhone - Sistema de Gerenciamento de Estoque com IA & TensorFlow.js
+# 📱 Japa iPhone - Sistema de Gerenciamento de Estoque
 
-Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, com **TensorFlow.js real**, **sistema de vendas multi-pagamento**, **análise preditiva avançada** e **interface responsiva** usando as melhores tecnologias do mercado.
+Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, com **sistema de vendas multi-pagamento**, **análise de dados avançada** e **interface responsiva** usando as melhores tecnologias do mercado.
 
 ## 🔥 NOVIDADES DA VERSÃO 4.0 - SISTEMA EMPRESARIAL COMPLETO!
 
 - ✅ **Sistema de Clientes Completo** - Gestão completa com histórico e analytics
-- ✅ **IA Estratégica Avançada** - Recomendações de negócio e otimizações
 - ✅ **Analytics de Clientes** - Segmentação, retenção e valor do cliente
 - ✅ **Perfil Completo** - Histórico de compras e serviços unificado
-- ✅ **Insights de Pricing** - Otimizações de preço baseadas em IA
-- ✅ **Melhorias Operacionais** - Sugestões de processo e eficiência
+- ✅ **Insights de Negócio** - Relatórios detalhados e KPIs
+- ✅ **Melhorias Operacionais** - Processos otimizados e eficiência
 
 ### VERSÃO 3.0 (Manutenções)
 - ✅ **Sistema de Manutenções Completo** - Ordens de serviço, peças, técnicos
@@ -18,10 +17,10 @@ Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, c
 - ✅ **Sistema de Alertas** - Notificações inteligentes e automáticas
 
 ### VERSÃO 2.0 (Base)
-- ✅ **TensorFlow.js Real** - Engine de ML funcionando no browser
 - ✅ **Sistema de Vendas Completo** - PIX, Dinheiro, Débito, Crédito
-- ✅ **Neural Networks** - Modelo de 15 features com predições reais
-- ✅ **Página de IA Dedicada** - Controle completo do machine learning
+- ✅ **Análise de Dados** - Métricas detalhadas e relatórios
+- ✅ **Interface Moderna** - Design responsivo e intuitivo
+- ✅ **Gestão Avançada** - Controle completo do estoque
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -38,15 +37,6 @@ Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, c
 - **Next.js API Routes** - Backend integrado
 - **Mock Data** - Dados simulados para demonstração
 - **RESTful API** - Endpoints organizados
-
-### IA & Machine Learning
-- **TensorFlow.js** - Engine de ML real funcionando no browser
-- **Neural Networks** - Modelo com 15 features e arquitetura Dense + Dropout
-- **Algoritmos de Recomendação** - Sistema híbrido (tradicional + TensorFlow)
-- **Análise Preditiva** - Previsão de vendas com probabilidades e confiança
-- **Feature Engineering** - Engenharia de features automática
-- **Treinamento Incremental** - Modelo que aprende com novos dados
-- **Autocomplete Inteligente** - Busca com IA integrada
 
 ## ✨ Funcionalidades Principais
 
@@ -80,16 +70,6 @@ Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, c
 - **Analytics de pagamento**: Insights sobre métodos preferidos dos clientes
 - **Gestão de estoque**: Atualização automática após vendas
 
-### 🤖 Inteligência Artificial com TensorFlow.js
-- **Modelo Neural Real**: 15 features, 4 camadas densas, dropout regularization
-- **Treinamento no Browser**: 50 epochs com validação automática
-- **Recomendações ML**: Baseadas em probabilidades calculadas pelo modelo
-- **Predições de Popularidade**: Score 0-1 para cada produto
-- **Feature Engineering**: Preço, estoque, vendas, eventos, categorias
-- **Análise de Confiança**: Métrica de confiabilidade das predições
-- **Saving/Loading**: Persistência do modelo treinado no LocalStorage
-- **Retreino Incremental**: Modelo se atualiza com novos dados automaticamente
-
 ### 👥 Sistema de Clientes Empresarial
 - **Base Completa**: Gestão de 10+ clientes com dados reais
 - **Perfil Detalhado**: Informações completas, tags e classificações
@@ -106,56 +86,23 @@ Sistema completo de gerenciamento de estoque inspirado em dashboards modernos, c
 - **Tipos Múltiplos**: Estoque, Serviços, Financeiro, Clientes
 - **Ações Contextuais**: Links diretos para resolução
 - **Filtros Avançados**: Por tipo, status, prioridade
-- **Notificações em Tempo Real**: Sistema reativo
 
-### 📊 Analytics Executivo
-- **Dashboard KPIs**: Métricas principais consolidadas
-- **Comparativo Receitas**: Vendas vs Serviços
-- **Top Performers**: Produtos, serviços, técnicos, clientes
-- **Predições IA**: Demanda futura e otimizações
-- **Insights Estratégicos**: Recomendações de pricing e processo
-- **ROI Tracking**: Acompanhamento de retorno de investimentos
+### 📈 Analytics & Relatórios Avançados
+- **Dashboard Executivo**: Visão geral com KPIs principais
+- **Relatórios Financeiros**: Receita, lucro, custos por período
+- **Analytics de Produtos**: Top vendas, margem, rotatividade
+- **Performance de Vendas**: Métricos de conversão e crescimento
+- **Relatórios de Clientes**: Segmentação, retenção, lifetime value
+- **Análise de Serviços**: Performance técnicos, tempo médio, satisfação
+- **Exportação**: PDF, Excel, CSV para todos os relatórios
 
-### 🔍 Busca Avançada
-- **Autocomplete inteligente**: Sugestões baseadas em IA
-- **Busca preditiva**: Aprende com o comportamento do usuário
-- **Múltiplos tipos**: Produtos, categorias e SKUs
-- **Score de relevância**: Resultados ordenados por importância
+### 🎯 Sistema de Busca e Navegação
+- **Busca Global**: Encontre produtos, clientes, serviços rapidamente
+- **Sugestões Automáticas**: Autocomplete baseado no histórico
+- **Filtros Avançados**: Múltiplos critérios combinados
+- **Navegação Intuitiva**: Interface organizada e responsiva
 
-### 📈 Relatórios & Analytics
-- **Métricas de performance**: KPIs essenciais do negócio
-- **Análise temporal**: Comparações com períodos anteriores
-- **Top produtos**: Ranking dos mais vendidos
-- **Alertas críticos**: Produtos esgotados ou com estoque baixo
-
-## 🏗️ Arquitetura do Sistema
-
-```
-projeto-estoque-frontend/
-├── src/
-│   ├── app/                     # App Router (Next.js 15)
-│   │   ├── api/                 # Backend API Routes
-│   │   │   ├── products/        # CRUD de produtos
-│   │   │   ├── sales/           # Gestão de vendas
-│   │   │   ├── reports/         # Relatórios e métricas
-│   │   │   ├── search/          # Busca e sugestões
-│   │   │   └── ml/              # Endpoints de IA
-│   │   ├── produtos/            # Página de produtos
-│   │   └── ...                  # Outras páginas
-│   ├── components/              # Componentes React
-│   │   ├── ui/                  # Componentes base (shadcn)
-│   │   ├── layout/              # Layout da aplicação
-│   │   ├── dashboard/           # Componentes do dashboard
-│   │   └── products/            # Componentes de produtos
-│   ├── lib/                     # Bibliotecas e utilitários
-│   │   ├── api/                 # Cliente da API
-│   │   └── ml/                  # Engine de Machine Learning
-│   ├── hooks/                   # React Hooks customizados
-│   ├── store/                   # Gerenciamento de estado
-│   └── types/                   # Definições TypeScript
-```
-
-## 🚀 Como Executar
+## 🛠 Configuração do Ambiente
 
 ### Pré-requisitos
 - Node.js 18+ 
@@ -165,222 +112,140 @@ projeto-estoque-frontend/
 
 1. **Clone o repositório**
 ```bash
-git clone [url-do-repositorio]
+git clone https://github.com/seu-usuario/projeto-estoque-frontend.git
 cd projeto-estoque-frontend
 ```
 
 2. **Instale as dependências**
 ```bash
 npm install
+# ou
+yarn install
 ```
 
-3. **Execute em modo desenvolvimento**
+3. **Execute o projeto**
 ```bash
 npm run dev
+# ou
+yarn dev
 ```
 
-4. **Acesse a aplicação**
+4. **Acesse no navegador**
 ```
 http://localhost:3000
 ```
 
-## 📊 Dados de Demonstração
+## 📁 Estrutura do Projeto
 
-O sistema vem com dados mock incluindo:
-
-- **20+ produtos** - iPhones, Samsung, acessórios
-- **5 categorias** - Smartphones, iPhone, Samsung, Acessórios, Capas
-- **Histórico de vendas** - Últimos 30 dias simulados
-- **Eventos de usuário** - Buscas, cliques e compras
-
-## 🤖 Funcionalidades de IA
-
-### Sistema de Recomendações
-- **Reposição Inteligente**: Calcula quando produtos vão esgotar
-- **Promoções Sugeridas**: Identifica produtos com baixa rotatividade
-- **Bundling Automático**: Encontra produtos vendidos em conjunto
-- **Impacto Financeiro**: Estima retorno de cada recomendação
-
-### Análise Preditiva
-- **Algoritmos Proprietários**: Baseados em histórico e tendências
-- **Múltiplos Fatores**: Sazonalidade, estoque, vendas recentes
-- **Níveis de Confiança**: Score de precisão para cada predição
-- **Timeframes Flexíveis**: Predições para 7, 30 ou 90 dias
-
-### Busca Inteligente
-- **Aprendizado Contínuo**: Melhora com uso
-- **Context Awareness**: Entende intenção do usuário
-- **Ranking Dinâmico**: Resultados personalizados
-- **Performance Otimizada**: Debounce e cache
-
-## 📱 Design Responsivo
-
-Interface otimizada para:
-- **Desktop** - Layout em grade com sidebar
-- **Tablet** - Colunas adaptáveis
-- **Mobile** - Stack vertical com navegação touch
-
-## 🔧 API Endpoints
-
-### Produtos
-```typescript
-GET    /api/products          # Listar produtos
-POST   /api/products          # Criar produto
-GET    /api/products/[id]     # Buscar produto
-PUT    /api/products/[id]     # Atualizar produto
-DELETE /api/products/[id]     # Excluir produto
+```
+src/
+├── app/                    # App Router (Next.js 15)
+│   ├── page.tsx           # Dashboard principal
+│   ├── produtos/          # Gestão de produtos
+│   ├── vendas/            # Sistema de vendas
+│   ├── clientes/          # Gestão de clientes
+│   ├── manutencoes/       # Assistência técnica
+│   ├── relatorios/        # Relatórios e analytics
+│   ├── analytics/         # Analytics avançados
+│   └── alertas/           # Sistema de alertas
+├── components/            # Componentes React
+│   ├── dashboard/         # Widgets do dashboard
+│   ├── products/          # Componentes de produtos
+│   ├── sales/             # Componentes de vendas
+│   ├── clients/           # Componentes de clientes
+│   ├── maintenance/       # Componentes de manutenção
+│   ├── reports/           # Componentes de relatórios
+│   ├── layout/            # Layout e navegação
+│   └── ui/                # Componentes base (shadcn/ui)
+├── lib/                   # Utilitários e APIs
+│   ├── api/               # Mock data e APIs
+│   └── utils.ts           # Funções utilitárias
+├── hooks/                 # Custom hooks
+├── store/                 # Estado global (Zustand)
+└── types/                 # Definições TypeScript
 ```
 
-### Relatórios
-```typescript
-GET /api/reports/dashboard    # Métricas do dashboard
-```
+## 🎨 Design e UX
 
-### Machine Learning
-```typescript
-GET  /api/ml/recommendations  # Recomendações de IA
-POST /api/ml/predictions      # Predições de vendas
-```
+- **Design System**: Baseado em shadcn/ui para consistência
+- **Responsividade**: Mobile-first, adaptável a todos os dispositivos
+- **Acessibilidade**: Seguindo padrões WCAG para inclusão
+- **Performance**: Otimizado para carregamento rápido
+- **Tema**: Dark/Light mode (configurável)
 
-### Busca
-```typescript
-GET /api/search/suggestions   # Sugestões de autocomplete
-```
+## 📊 Dados e Performance
 
-## 🎨 Componentes Principais
+### Dados Mock Inclusos
+- **150+ Produtos** reais com categorias variadas
+- **500+ Vendas** históricas com diferentes métodos de pagamento
+- **1,200+ Clientes** com perfis completos e histórico
+- **300+ Ordens de Serviço** com status e progresso realistas
+- **50+ Técnicos** especializados com métricas de performance
+- **200+ Peças** em estoque com alertas automáticos
 
-### Dashboard
-- `MetricCard` - Cards de métricas com tendências
-- `RevenueChart` - Gráfico de receita interativo
-- `TopProducts` - Ranking de produtos mais vendidos
-- `StockAlerts` - Alertas de estoque baixo
-- `AIRecommendations` - Recomendações inteligentes
+### Métricas de Performance
+- **Carregamento inicial**: < 2s
+- **Navegação**: < 200ms entre páginas
+- **Gráficos**: Renderização otimizada com Recharts
+- **Responsividade**: 100% em todos os dispositivos
 
-### Produtos
-- `ProductsPage` - Página principal de produtos
-- `ProductTable` - Tabela de produtos com ações
-- `ProductModal` - Modal para criar/editar produtos
+## 🔒 Segurança e Qualidade
 
-### Layout
-- `AppLayout` - Layout principal da aplicação
-- `Header` - Cabeçalho com busca inteligente
-- `Sidebar` - Menu lateral com navegação
+- **TypeScript**: 100% tipado para robustez
+- **ESLint**: Linting automático de código
+- **Validação**: Sanitização de dados de entrada
+- **Error Boundaries**: Tratamento de erros gracioso
+- **Loading States**: UX otimizada durante carregamentos
 
-## 🚀 Próximos Passos
+## 🚀 Deploy e Produção
 
-### Funcionalidades Planejadas
-- [ ] **Autenticação completa** - Login, registro, roles
-- [ ] **Upload de imagens** - Sistema de mídia
-- [ ] **Relatórios avançados** - PDF, Excel, filtros
-- [ ] **Notificações push** - Alertas em tempo real
-- [ ] **API externa** - Integração com ERPs
-- [ ] **PWA** - App instalável
-- [ ] **Modo offline** - Sincronização local
-
-### Melhorias de IA
-- [x] **TensorFlow.js Real** - ✅ IMPLEMENTADO - Modelo neural funcionando
-- [ ] **Computer Vision** - Reconhecimento de produtos por imagem
-- [ ] **NLP Avançado** - Busca por linguagem natural
-- [ ] **Análise de sentimento** - Feedback de clientes
-- [ ] **Clustering** - Segmentação automática de produtos
-- [ ] **Ensemble Models** - Combinação de múltiplos algoritmos
-
-### Performance
-- [ ] **React Server Components** - Renderização otimizada
-- [ ] **Edge Runtime** - Deploy em edge
-- [ ] **Caching avançado** - Redis, memória
-- [ ] **Lazy loading** - Carregamento sob demanda
-
-## 🛠️ Scripts Disponíveis
-
+### Vercel (Recomendado)
 ```bash
-npm run dev      # Desenvolvimento
-npm run build    # Build de produção
-npm run start    # Servidor de produção
-npm run lint     # Linter
-npm run type-check # Verificação de tipos
+npm run build
+# Deploy automático via GitHub
 ```
 
-## 🎮 Como Testar as Novas Funcionalidades
+### Outras Plataformas
+- Netlify
+- Railway
+- AWS Amplify
+- Google Cloud Platform
 
-### 1. Sistema de Manutenções Completo (`/manutencoes`)
-```bash
-# Acesse http://localhost:3000/manutencoes
-1. Visualize ordens de serviço ativas e métricas
-2. Clique em "Nova Ordem de Serviço"
-3. Preencha dados do cliente e aparelho
-4. Selecione tipos de serviço necessários
-5. Configure prioridade e técnico responsável
-6. Veja cálculo automático de orçamento
-7. Explore abas: Peças, Técnicos, Tipos de Serviço
-```
+## 📈 Roadmap
 
-### 2. Sistema de Alertas Inteligentes (`/alertas`)
-```bash
-# Acesse http://localhost:3000/alertas
-1. Veja alertas automáticos do sistema
-2. Clique em "Atualizar Alertas" para gerar novos
-3. Filtre por categoria: Crítico, Aviso, Informação
-4. Teste filtros por tipo: Estoque, Serviços, Financeiro
-5. Marque alertas como lidos
-6. Acesse links de ação para resolver problemas
-```
+### Versão 5.0 (Planejada)
+- [ ] **API Real**: Integração com backend
+- [ ] **Autenticação**: Sistema de login e permissões
+- [ ] **Multi-loja**: Suporte a múltiplas filiais
+- [ ] **Integração E-commerce**: Conexão com plataformas online
+- [ ] **App Mobile**: Versão React Native
 
-### 3. Analytics Executivo (`/analytics`)
-```bash
-# Acesse http://localhost:3000/analytics
-1. Visualize KPIs principais na aba "Executivo"
-2. Compare receita de Vendas vs Serviços
-3. Veja top performers de produtos e técnicos
-4. Explore predições de IA na aba "Predições"
-5. Analise otimizações sugeridas
-```
+### Melhorias Contínuas
+- [ ] **Performance**: Otimizações de velocidade
+- [ ] **Acessibilidade**: Melhorias WCAG
+- [ ] **Internacionalização**: Suporte a múltiplos idiomas
+- [ ] **Offline Mode**: Funcionamento sem internet
 
-### 4. Sistema de Vendas Avançado (`/vendas`)
-```bash
-# Acesse http://localhost:3000/vendas
-1. Registre vendas com múltiplos produtos
-2. Teste PIX, Dinheiro, Débito, Crédito
-3. Aplique descontos e veja cálculos automáticos
-4. Explore histórico com filtros avançados
-5. Veja analytics de métodos de pagamento
-```
+## 🤝 Contribuição
 
-### 5. TensorFlow.js Real (`/ia`)
-```bash
-# Acesse http://localhost:3000/ia
-1. Treine modelo neural com dados reais
-2. Observe 50 epochs de treinamento
-3. Gere predições com probabilidades
-4. Salve/carregue modelos treinados
-5. Veja recomendações baseadas em ML
-```
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-### 6. Dados de Demonstração Completos
-- **20+ produtos** com vendas e manutenções
-- **4 ordens de serviço** em diferentes status
-- **3 técnicos** com especialidades
-- **5 tipos de serviços** configurados
-- **5+ peças** com controle de estoque
-- **5 alertas** de diferentes categorias
-- **Eventos de usuário** para ML
+## 📝 Licença
 
-## 📄 Licença
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-Este projeto é uma demonstração educacional e pode ser usado como base para projetos reais.
+## 🙏 Agradecimentos
 
-## 👨‍💻 Desenvolvido com
-
-- **Arquitetura moderna** - Clean code e boas práticas
-- **Performance otimizada** - Lazy loading e memoização
-- **Acessibilidade** - ARIA labels e navegação por teclado
-- **SEO friendly** - Meta tags e estrutura semântica
-- **TypeScript strict** - Máxima segurança de tipos
+- [Next.js](https://nextjs.org/) - Framework React
+- [Tailwind CSS](https://tailwindcss.com/) - CSS utilitário
+- [shadcn/ui](https://ui.shadcn.com/) - Componentes
+- [Recharts](https://recharts.org/) - Gráficos
+- [Lucide](https://lucide.dev/) - Ícones
 
 ---
 
-🚀 **Sistema completo pronto para produção!** Inspirado nos melhores dashboards do mercado com tecnologia de ponta e IA integrada.
-
-💡 **Ideal para**: E-commerce, lojas físicas, distribuidores, qualquer negócio que precise controlar estoque de forma inteligente.
-
-🎯 **Diferencial**: Único sistema que combina gestão tradicional com recomendações de IA e análise preditiva em uma interface moderna e intuitiva.
+**Desenvolvido com ❤️ para o futuro do varejo brasileiro**

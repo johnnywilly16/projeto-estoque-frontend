@@ -29,7 +29,7 @@ import {
 
 interface ExportSystemProps {
   reportType: string;
-  reportData: any;
+  reportData: unknown;
   reportName: string;
 }
 
@@ -39,7 +39,7 @@ export function ExportSystem({ reportType, reportData, reportName }: ExportSyste
   const [isExporting, setIsExporting] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
-  const [scheduledExports, setScheduledExports] = useState<any[]>([]);
+  const [scheduledExports, setScheduledExports] = useState<{ id: number; reportName?: string; name?: string; format: string; frequency?: string; schedule?: string; recipients?: string[]; nextRun?: string }[]>([]);
   const [shareConfig, setShareConfig] = useState({
     emails: '',
     message: '',
@@ -180,7 +180,7 @@ export function ExportSystem({ reportType, reportData, reportName }: ExportSyste
             <span>Exportar Relatório</span>
           </CardTitle>
           <CardDescription>
-            Escolha o formato de exportação para o relatório "{reportName}"
+            Escolha o formato de exportação para o relatório &quot;{reportName}&quot;
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -432,12 +432,12 @@ export function ExportSystem({ reportType, reportData, reportName }: ExportSyste
                         Formato: {schedule.format.toUpperCase()} • Frequência: {schedule.frequency}
                       </p>
                       <p className="text-xs text-gray-500">
-                        Próximo envio: {new Date(schedule.nextRun).toLocaleDateString('pt-BR')}
+                        Próximo envio: {schedule.nextRun ? new Date(schedule.nextRun).toLocaleDateString('pt-BR') : 'Não definido'}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Badge className="bg-purple-100 text-purple-800">
-                        {schedule.recipients.length} destinatário(s)
+                        {schedule.recipients?.length || 0} destinatário(s)
                       </Badge>
                       <Button
                         variant="ghost"

@@ -57,23 +57,26 @@ export function RevenueChart({ data, period, onPeriodChange }: RevenueChartProps
 
   const CustomTooltip = ({ active, payload, label }: {
     active?: boolean;
-    payload?: Array<{ color: string; name: string; value: number }>;
+    payload?: Array<{ color: string; name: string; value: number; dataKey: string }>;
     label?: string;
   }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-medium text-gray-900 mb-2">{label}</p>
-          {payload.map((entry, index: number) => (
-            <div key={index} className="flex items-center space-x-2 text-sm">
-              <div 
-                className="w-3 h-3 rounded-full" 
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-gray-600">{entry.name}:</span>
-              <span className="font-medium">{entry.value}</span>
-            </div>
-          ))}
+          {payload.map((entry, index: number) => {
+            const [formattedValue] = formatTooltipValue(entry.value, entry.dataKey);
+            return (
+              <div key={index} className="flex items-center space-x-2 text-sm">
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-gray-600">{entry.name}:</span>
+                <span className="font-medium">{formattedValue}</span>
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -120,7 +123,7 @@ export function RevenueChart({ data, period, onPeriodChange }: RevenueChartProps
       <CardContent>
         <div className="space-y-4">
           {/* Controles de Período */}
-          <Tabs value={period} onValueChange={(value) => onPeriodChange(value as any)}>
+          <Tabs value={period} onValueChange={(value) => onPeriodChange(value as 'week' | 'month' | 'year')}>
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="week">Semana</TabsTrigger>
               <TabsTrigger value="month">Mês</TabsTrigger>

@@ -7,8 +7,7 @@ import {
   SearchSuggestion,
   ApiResponse,
   PaginatedResponse,
-  ProductFilter,
-  RecommendationResult
+  ProductFilter
 } from '@/types';
 
 // Configuração da API
@@ -165,16 +164,4 @@ export const eventsAPI = {
   }
 };
 
-// ML API
-export const mlAPI = {
-  getRecommendations: async (userId: string): Promise<ApiResponse<RecommendationResult[]>> => {
-    return apiRequest<ApiResponse<RecommendationResult[]>>(`/ml/recommendations?userId=${userId}`);
-  },
 
-  predict: async (input: unknown): Promise<ApiResponse<unknown>> => {
-    return apiRequest<ApiResponse<unknown>>('/ml/predict', {
-      method: 'POST',
-      body: JSON.stringify(input),
-    });
-  }
-};
