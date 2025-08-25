@@ -41,6 +41,7 @@ model ServiceOrders {
 model Products {
   id                Int                 @id @default(autoincrement())
   externalId        String              @default(dbgenerated("gen_random_uuid()")) @map("external_id") @db.Uuid
+  categoryId        Int                 @default(1) @map("category_id")
   name              String
   stockQuantity     Int                 @map("stock_quantity")
   unitPrice         Decimal             @map("unit_price") @db.Decimal(10, 2)
@@ -50,8 +51,22 @@ model Products {
   ServiceOrdersCost ServiceOrdersCost[]
   StockMovements    StockMovements[]
 
+  category Categories? @relation(fields: [categoryId], references: [id], onDelete: SetDefault)
+
   @@index(fields: [externalId], name: "idx_products_external_id", type: Hash)
   @@map("products")
+}
+
+model Categories {
+  id         Int        @id @default(autoincrement())
+  externalId String     @default(dbgenerated("gen_random_uuid()")) @map("external_id") @db.Uuid
+  name       String     @unique
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  products   Products[]
+
+  @@index(fields: [externalId], name: "idx_categories_external_id", type: Hash)
+  @@map("categories")
 }
 
 model ServiceOrdersCost {

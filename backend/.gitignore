@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+#generated prisma client
+/generated
+
 # IDE
 /.idea
 /.awcache
