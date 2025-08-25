@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id           Int      @id @default(autoincrement())
+  externalId   String   @default(dbgenerated("gen_random_uuid()")) @map("external_id") @db.Uuid
+  name         String?
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index(fields: [externalId], name: "idx_users_external_id", type: Hash)
+  @@map("users")
+}
+
+model ServiceOrders {
+  id                Int                 @id @default(autoincrement())
+  externalId        String              @default(dbgenerated("gen_random_uuid()")) @map("external_id") @db.Uuid
+  customerName      String              @map("customer_name")
+  customerContact   String              @map("customer_contact")
+  price             Decimal             @db.Decimal(10, 2)
+  description       String
+  status            ServiceOrderStatus  @default(pending)
+  completionDate    DateTime?           @map("completion_date")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+  ServiceOrdersCost ServiceOrdersCost[]
+
+  @@index(fields: [externalId], name: "idx_service_orders_external_id", type: Hash)
+  @@map("service_orders")
+}
+
+model Products {
+  id                Int                 @id @default(autoincrement())
+  externalId        String              @default(dbgenerated("gen_random_uuid()")) @map("external_id") @db.Uuid
+  name              String
+  stockQuantity     Int                 @map("stock_quantity")
+  unitPrice         Decimal             @map("unit_price") @db.Decimal(10, 2)
+  description       String?
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+  ServiceOrdersCost ServiceOrdersCost[]
+  StockMovements    StockMovements[]
+
+  @@index(fields: [externalId], name: "idx_products_external_id", type: Hash)
+  @@map("products")
+}
+
+model ServiceOrdersCost {
+  id             Int      @id @default(autoincrement())
+  serviceOrderId Int      @map("service_order_id")
+  productId      Int?     @map("product_id")
+  description    String
+  value          Decimal  @db.Decimal(10, 2)
+  quantity       Int
+  type           CostType
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  ServiceOrder ServiceOrders @relation(fields: [serviceOrderId], references: [id], onDelete: Cascade)
+  Product      Products?     @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@map("service_orders_cost")
+}
+
+model StockMovements {
+  id            Int           @id @default(autoincrement())
+  productId     Int           @map("product_id")
+  movementType  MovementType  @map("movement_type")
+  referenceType ReferenceType @map("reference_type")
+  referenceId   Int           @map("reference_id")
+  quantity      Int
+  unitPrice     Decimal       @map("unit_price") @db.Decimal(10, 2)
+  notes         String?
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  Product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("stock_movements")
+}
+
+enum ServiceOrderStatus {
+  pending
+  inProgress @map("in_progress")
+  completed
+  cancelled
+
+  @@map("service_order_status")
+}
+
+enum ReferenceType {
+  serviceOrder @map("service_order")
+  purchase
+
+  @@map("reference_type")
+}
+
+enum MovementType {
+  addition
+  removal
+
+  @@map("movement_type")
+}
+
+enum CostType {
+  stockProduct    @map("stock_product")
+  externalService @map("external_service")
+
+  @@map("cost_type")
+}
