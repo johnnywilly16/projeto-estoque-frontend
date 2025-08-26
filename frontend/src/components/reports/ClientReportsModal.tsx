@@ -110,7 +110,7 @@ export function ClientReportsModal({ isOpen, onClose }: ClientReportsModalProps)
       type: 'campaign',
       title: 'Campanhas Sugeridas',
       description: 'Segmentação automática para campanhas direcionadas',
-      segments: ['iPhone Users', 'Acessórios Lovers', 'Business Clients'],
+      segments: ['iPhone UsersRepository', 'Acessórios Lovers', 'Business Clients'],
       expectedReturn: 23.5,
       action: 'Criar campanhas segmentadas',
       impact: 'Alto'
